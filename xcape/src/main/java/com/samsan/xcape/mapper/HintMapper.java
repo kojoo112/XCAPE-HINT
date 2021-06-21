@@ -1,15 +1,16 @@
 package com.samsan.xcape.mapper;
 
+import com.samsan.xcape.vo.HintVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Map;
 
 @Repository
 @Mapper
 public interface HintMapper {
 
-    List<Map<Object, Object>> getHint();
+    List<HintVO> getHint();
 
+    HintVO registerHint(HintVO hintVO);
 }

@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.samsan.xcape.mapper.HintMapper">
-    <select id="getHint" resultType="java.util.HashMap">
+
+    <select id="getHint" resultType="com.samsan.xcape.vo.HintVO">
         select * from xcape;
     </select>
+
+    <insert id="registerHint" parameterType="com.samsan.xcape.vo.HintVO">
+        insert into xcape(
+            `key`, `message1`, `message2`, `use`, `theme`, `merchant`
+            )
+            values(
+            #{key}, #{message1}, #{message2}, #{use}, #{theme}, #{merchant}
+            )
+    </insert>
+
 </mapper>
