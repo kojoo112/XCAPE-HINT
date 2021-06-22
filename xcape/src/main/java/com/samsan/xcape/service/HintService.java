@@ -10,4 +10,5 @@ public interface HintService {
 
     HintVO registerHint(HintVO hintVO);
 
+    HintVO updateHint(HintVO hintVO);
 }

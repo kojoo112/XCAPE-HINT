@@ -3,16 +3,24 @@
 <mapper namespace="com.samsan.xcape.mapper.HintMapper">
 
     <select id="getHint" resultType="com.samsan.xcape.vo.HintVO">
-        select * from xcape;
+        select * from `xcape`;
     </select>
 
     <insert id="registerHint" parameterType="com.samsan.xcape.vo.HintVO">
-        insert into xcape(
+        insert into `xcape`(
             `key`, `message1`, `message2`, `use`, `theme`, `merchant`
             )
             values(
             #{key}, #{message1}, #{message2}, #{use}, #{theme}, #{merchant}
             )
     </insert>
+
+    <update id="updateHint" parameterType="com.samsan.xcape.vo.HintVO">
+        UPDATE
+            `xcape`
+        SET
+            `key` = #{key}, `message1` = #{message1}, `message2` = #{message2}, `use` = #{use}, `theme` = #{theme}, `merchant` = #{merchant}
+        WHERE (`seq` = #{seq});
+    </update>
 
 </mapper>

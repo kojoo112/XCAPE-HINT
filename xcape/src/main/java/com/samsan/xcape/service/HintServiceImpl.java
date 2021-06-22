@@ -24,4 +24,9 @@ public class HintServiceImpl implements HintService{
     public HintVO registerHint(HintVO hintVO) {
         return hintMapper.registerHint(hintVO);
     }
+
+    @Override
+    public HintVO updateHint(HintVO hintVO) {
+        return hintMapper.updateHint(hintVO);
+    }
 }

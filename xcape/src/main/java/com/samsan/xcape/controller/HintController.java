@@ -3,10 +3,7 @@ package com.samsan.xcape.controller;
 import com.samsan.xcape.service.HintService;
 import com.samsan.xcape.vo.HintVO;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,6 +25,11 @@ public class HintController {
     @PostMapping("/registerHint")
     public HintVO registerHint(@RequestBody HintVO hintVO){
         return hintService.registerHint(hintVO);
+    }
+
+    @PutMapping("/updateHint")
+    public HintVO updateHint(@RequestBody HintVO hintVO){
+        return hintService.updateHint(hintVO);
     }
 
 }

@@ -13,4 +13,6 @@ public interface HintMapper {
     List<HintVO> getHint();
 
     HintVO registerHint(HintVO hintVO);
+
+    HintVO updateHint(HintVO hintVO);
 }
