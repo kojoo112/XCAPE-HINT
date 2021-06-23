@@ -31,5 +31,4 @@ public class HintController {
     public HintVO updateHint(@RequestBody HintVO hintVO){
         return hintService.updateHint(hintVO);
     }
-
 }
