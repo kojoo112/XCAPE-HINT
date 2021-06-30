@@ -184,7 +184,7 @@ gradle-app.setting
 ### Gradle Patch ###
 **/build/
 
-### node
+############################################################################### node
 
 
 # Created by https://www.toptal.com/developers/gitignore/api/node
