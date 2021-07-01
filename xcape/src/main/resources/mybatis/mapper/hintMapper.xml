@@ -3,15 +3,25 @@
 <mapper namespace="com.samsan.xcape.mapper.HintMapper">
 
     <select id="getHint" resultType="com.samsan.xcape.vo.HintVO">
-        select * from `xcape`;
+        SELECT
+               `seq`,
+               `merchant`,
+               `theme`,
+               `index_of_theme`,
+               `key`,
+               `message1`,
+               `message2`,
+               `use`
+        FROM
+             `xcape`;
     </select>
 
     <insert id="registerHint" parameterType="com.samsan.xcape.vo.HintVO">
-        insert into `xcape`(
-            `key`, `message1`, `message2`, `use`, `theme`, `merchant`
+        INSERT INTO `xcape`(
+            `key`, `message1`, `message2`, `use`, `theme`, `merchant`, `index_of_theme`
             )
-            values(
-            #{key}, #{message1}, #{message2}, #{use}, #{theme}, #{merchant}
+            VALUES(
+            #{key}, #{message1}, #{message2}, #{use}, #{theme}, #{merchant}, #{index_of_theme}
             )
     </insert>
 
@@ -19,8 +29,15 @@
         UPDATE
             `xcape`
         SET
-            `key` = #{key}, `message1` = #{message1}, `message2` = #{message2}, `use` = #{use}, `theme` = #{theme}, `merchant` = #{merchant}
-        WHERE (`seq` = #{seq});
+            `key` = #{key},
+            `message1` = #{message1},
+            `message2` = #{message2},
+            `use` = #{use},
+            `theme` = #{theme},
+            `merchant` = #{merchant},
+            `index_of_theme` = #{index_of_theme}
+        WHERE
+              (`seq` = #{seq});
     </update>
 
 </mapper>

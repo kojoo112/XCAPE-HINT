@@ -8,12 +8,13 @@ import java.util.Date;
 @Data
 public class HintVO {
     private int seq;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date create_time;
+    private String theme;
+    private String merchant;
+    private String index_of_theme;
     private String key;
     private String message1;
     private String message2;
     private char use;
-    private String theme;
-    private String merchant;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date create_time;
 }

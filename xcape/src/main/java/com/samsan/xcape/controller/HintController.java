@@ -2,7 +2,6 @@ package com.samsan.xcape.controller;
 
 import com.samsan.xcape.service.HintService;
 import com.samsan.xcape.vo.HintVO;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,7 +17,7 @@ public class HintController {
 
     @GetMapping("/welcome")
     public String welcome(){
-        return "Hello sdf! \n";
+        return "Hello React! \n";
     }
 
     @GetMapping("/hint")
