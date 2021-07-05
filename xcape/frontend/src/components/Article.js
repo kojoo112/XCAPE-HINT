@@ -1,7 +1,17 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import { Card, Table } from 'react-bootstrap'
 
-export default function Article(){
+export default function Article (props){
+
+    const [hintList, setHintList] = useState([]);
+
+    const handleHintList = () => {
+        setHintList(props.hintState);
+    }
+
+    useEffect(() => {
+        handleHintList();
+    })
 
     return(
             <Card className="text-white bg-dark mb-3">
@@ -18,13 +28,15 @@ export default function Article(){
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>asdf</td>
-                                <td>asdf</td>
-                                <td>asdf</td>
-                                <td>asdf</td>
-                                <td>asdf</td>
+                        {hintList.map((item, index) => (
+                            <tr key={index}>
+                                <td>{index+1}</td>
+                                <td>{item.key}</td>
+                                <td>{item.message1}</td>
+                                <td>{item.message2}</td>
+                                <td>x버튼</td>
                             </tr>
+                        ))}
                         </tbody>
                     </Table>
                 </Card.Body>

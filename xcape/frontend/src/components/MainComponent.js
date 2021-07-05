@@ -1,36 +1,50 @@
-import React, {Component} from "react";
-import axios from "axios";
+import React, {useEffect, useState} from "react";
+import Header from "./Header";
+import Article from "./Article";
 
-class MainComponent extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            message: ""
-        }
+export default function MainComponent(){
+
+    // const [merchantList, setMerchantList] = useState([])
+
+    let hintListSize = 0;
+
+    const [merchant, setMerchant] = useState('MRC001');
+    const [theme, setTheme] = useState('THM001');
+
+    const [themeList, setThemeList] = useState([]);
+    const [hintList, setHintList] = useState([]);
+
+    const getThemeList = async () => {
+        const response = await fetch(`/theme/list?merchantCode=${merchant}`);
+        const data = await response.json();
+        setThemeList(data);
     }
 
-    componentDidMount() {
-        this.getApi();
+    const handleMerchantState = (merchant) => {
+        setMerchant(merchant);
+        console.log(`TestComponent console : ${merchant}`)
     }
 
-    getApi = () => {
-        axios.get("http://localhost:8080/api/hello")
-            .then(res => {
-                console.log(res);
-                this.setState({
-                    message: res.data.message
-                })
-            })
-            .catch(res => console.log(res))
+    const handleThemeState = (theme) => {
+        setTheme(theme);
+        console.log(theme);
     }
 
-    render() {
-        return(
-            <div>
-
-            </div>
-        )
+    const getHintList = async () => {
+        const response = await fetch(`/getHint?merchantCode=${merchant}&themeCode=${theme}`);
+        const data = await response.json();
+        setHintList(data);
     }
+
+    useEffect(() => {
+        getThemeList();
+        getHintList();
+    },[merchant, theme]);
+
+    return(
+      <div>
+          <Header handleMerchantState={handleMerchantState} merchantState={ merchant } themeState={ handleThemeState } themeListState={ themeList }/>
+          <Article hintListSize={hintListSize} hintState={hintList}/>
+      </div>
+    );
 }
-
-export default MainComponent

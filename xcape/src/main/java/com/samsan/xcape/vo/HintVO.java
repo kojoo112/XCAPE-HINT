@@ -1,20 +1,23 @@
 package com.samsan.xcape.vo;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.samsan.xcape.enums.Merchant;
 import lombok.Data;
-
-import java.util.Date;
 
 @Data
 public class HintVO {
     private int seq;
     private String theme;
-    private String merchant;
+    private Merchant merchant;
+    private String theme_code;
+    private String theme_name;
     private String index_of_theme;
     private String key;
     private String message1;
     private String message2;
     private char use;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date create_time;
+    private String create_time;
+
+    public void setMerchant(String merchantCode) {
+        this.merchant = Merchant.getMerchantEnum(merchantCode);
+    }
 }

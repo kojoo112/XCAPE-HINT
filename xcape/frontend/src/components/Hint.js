@@ -20,9 +20,9 @@ class Hint extends Component {
     }
 
     getApi = () => {
-        axios.get("http://localhost:8080/hint")
+        axios.get("/hint")
             .then(res => {
-                console.log(res);
+                // console.log(res);
                 // this.setState({
                 //     merchant: res.data.merchant,
                 //     index_of_theme: res.data.index_of_theme,

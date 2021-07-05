@@ -1,33 +1,35 @@
-import React, {Component, useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { Card, Row, Col, Button, InputGroup, FormControl } from 'react-bootstrap'
 import '../Header.css'
-import Hint from "./Hint";
-import axios from "axios";
 
-export default function Header(){
+export default function Header(props){
 
-    let [hint, setHint] = useState([]);
+    let themeList = props.themeListState;
 
-    let options = [
-        {
-            merchant: "강남-엑스케이프",
-            theme: ["기억의 틈", "수취인 초대", "제3표류도"]
-        },
-        {
-            merchant: "건대-엑스케이프"
-        },
-        {
-            merchant: "건대-엑스크라임"
-        },
-        {
-            merchant: "수원-엑스케이프"
-        }
-    ]
+    const [merchantList, setMerchantList] = useState([]);
+
+    const getMerchantList = async () => {
+        const response = await fetch('/merchant/list');
+        const data = await response.json();
+        setMerchantList(data);
+    }
+
+    const handleMerchant = async (e) =>{
+        props.handleMerchantState(e.target.value);
+    }
+
+    const handleTheme = async (e) => {
+        props.themeState(e.target.value);
+    }
+
+    useEffect(() => {
+        getMerchantList();
+    }, []);
+
 
     return(
         <Card className="mb-3 bg-dark text-white">
             <Card.Header>XCAPE Hint Setting</Card.Header>
-            <Hint />
             <Card.Body>
                 <Row>
                     <Col className="col-md-10 col-sm-12">
@@ -35,9 +37,9 @@ export default function Header(){
                             <Col className="col-md-4 col-sm-12">
                                 <InputGroup className="mb-3">
                                     <InputGroup.Text>가맹점</InputGroup.Text>
-                                    <FormControl as="select">
-                                        {options.map((option,index) =>(
-                                            <option key={index} value={option.merchant}>{option.merchant}</option>
+                                    <FormControl as="select" onChange={handleMerchant}>
+                                        {merchantList.map((merchant, index) =>(
+                                            <option key={index} value={merchant.merchant.merchantCode}>{merchant.merchant.merchantName}</option>
                                         ))}
                                     </FormControl>
                                 </InputGroup>
@@ -45,9 +47,9 @@ export default function Header(){
                             <Col className="col-md-4 col-sm-12">
                                 <InputGroup className="mb-3">
                                     <InputGroup.Text>테마</InputGroup.Text>
-                                    <FormControl as="select">
-                                        {options.map((option, index) => (
-                                            <option key={index} value={option.theme}>{option.theme}</option>
+                                    <FormControl as="select" onChange={handleTheme}>
+                                        {themeList.map((theme, index) => (
+                                            <option key={index} value={theme.themeCode}>{theme.themeName}</option>
                                         ))}
                                     </FormControl>
                                 </InputGroup>

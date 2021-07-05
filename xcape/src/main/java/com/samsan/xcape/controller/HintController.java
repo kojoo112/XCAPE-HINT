@@ -1,7 +1,11 @@
 package com.samsan.xcape.controller;
 
+import com.samsan.xcape.enums.Merchant;
 import com.samsan.xcape.service.HintService;
+import com.samsan.xcape.vo.HintResponseVO;
 import com.samsan.xcape.vo.HintVO;
+import com.samsan.xcape.vo.MerchantVO;
+import com.samsan.xcape.vo.ThemeVO;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,15 +19,25 @@ public class HintController {
         this.hintService = hintService;
     }
 
-    @GetMapping("/welcome")
-    public String welcome(){
-        return "Hello React! \n";
+    @GetMapping("/theme/list")
+    @ResponseBody
+    public List<ThemeVO> getThemeList(String merchantCode){
+        List<ThemeVO> themeVOList = hintService.getThemeList(merchantCode);
+        return themeVOList;
     }
 
-    @GetMapping("/hint")
+    @GetMapping("/merchant/list")
     @ResponseBody
-    public List<HintVO> getHint(){
-        return hintService.getHint();
+    public List<MerchantVO> getMerchantList(){
+        List<MerchantVO> merchantVOList = hintService.getMerchantList();
+        return merchantVOList;
+    }
+
+    @GetMapping("/getHint")
+    @ResponseBody
+    public List<HintVO> getHint(String merchantCode, String themeCode){
+        List<HintVO> hintVOList = hintService.getHint(merchantCode, themeCode);
+        return hintVOList;
     }
 
     @PostMapping("/registerHint")
