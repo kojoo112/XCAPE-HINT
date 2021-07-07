@@ -34,7 +34,7 @@ export default function Article (props){
                                 <td>{item.key}</td>
                                 <td>{item.message1}</td>
                                 <td>{item.message2}</td>
-                                <td>x버튼</td>
+                                <td><button>X</button></td>
                             </tr>
                         ))}
                         </tbody>

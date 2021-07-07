@@ -5,6 +5,7 @@ import '../Header.css'
 export default function Header(props){
 
     let themeList = props.themeListState;
+    let hintListSize = props.hintListSize;
 
     const [merchantList, setMerchantList] = useState([]);
 
@@ -14,12 +15,20 @@ export default function Header(props){
         setMerchantList(data);
     }
 
-    const handleMerchant = async (e) =>{
+    const handleMerchant = async (e) => {
         props.handleMerchantState(e.target.value);
     }
 
-    const handleTheme = async (e) => {
-        props.themeState(e.target.value);
+    const handleThemeCode = async (e) => {
+        props.themeCodeState(e.target.value);
+    }
+
+    const handleMessage1 = async (e) => {
+        props.handleMessage1(e.target.value);
+    }
+
+    const handleMessage2 = async (e) => {
+        props.handleMessage2(e.target.value);
     }
 
     useEffect(() => {
@@ -39,7 +48,9 @@ export default function Header(props){
                                     <InputGroup.Text>가맹점</InputGroup.Text>
                                     <FormControl as="select" onChange={handleMerchant}>
                                         {merchantList.map((merchant, index) =>(
-                                            <option key={index} value={merchant.merchant.merchantCode}>{merchant.merchant.merchantName}</option>
+                                            <option key={index} value={merchant.merchant.merchantCode}>
+                                                {merchant.merchant.merchantName}
+                                            </option>
                                         ))}
                                     </FormControl>
                                 </InputGroup>
@@ -47,7 +58,7 @@ export default function Header(props){
                             <Col className="col-md-4 col-sm-12">
                                 <InputGroup className="mb-3">
                                     <InputGroup.Text>테마</InputGroup.Text>
-                                    <FormControl as="select" onChange={handleTheme}>
+                                    <FormControl as="select" onChange={handleThemeCode}>
                                         {themeList.map((theme, index) => (
                                             <option key={index} value={theme.themeCode}>{theme.themeName}</option>
                                         ))}
@@ -57,14 +68,14 @@ export default function Header(props){
                             <Col className="col-md-2 col-sm-12">
                                 <InputGroup className="mb-3">
                                     <InputGroup.Text>번호</InputGroup.Text>
-                                    <FormControl as="input" type="text" disabled placeholder="인덱스 다음번호">
+                                    <FormControl as="input" type="text" disabled value={hintListSize}>
                                     </FormControl>
                                 </InputGroup>
                             </Col>
                             <Col className="col-md-2 col-sm-12">
                                 <InputGroup className="mb-3">
                                     <InputGroup.Text>키</InputGroup.Text>
-                                    <FormControl as="input" type="text" disabled placeholder="랜덤 키값">
+                                    <FormControl as="input" type="text" disabled>
                                     </FormControl>
                                 </InputGroup>
                             </Col>
@@ -73,21 +84,21 @@ export default function Header(props){
                             <Col>
                                 <InputGroup className="mb-3">
                                     <InputGroup.Text>힌트 1</InputGroup.Text>
-                                    <FormControl as="input">
+                                    <FormControl as="input" type="text" onChange={handleMessage1}>
                                     </FormControl>
                                 </InputGroup>
                             </Col>
                             <Col>
                                 <InputGroup className="mb-3">
                                     <InputGroup.Text>힌트 2</InputGroup.Text>
-                                    <FormControl as="input">
+                                    <FormControl as="input" type="text" onChange={handleMessage2}>
                                     </FormControl>
                                 </InputGroup>
                             </Col>
                         </Row>
                     </Col>
                     <Col>
-                        <Button className="col-md-6 col-sm-12" as="input" type="reset" value="저장" />
+                        <Button className="col-md-6 col-sm-12" onClick={props.registerHint} value="저장" />
                     </Col>
                 </Row>
             </Card.Body>

@@ -1,6 +1,5 @@
 package com.samsan.xcape.service;
 
-import com.samsan.xcape.enums.Merchant;
 import com.samsan.xcape.vo.HintVO;
 import com.samsan.xcape.vo.MerchantVO;
 import com.samsan.xcape.vo.ThemeVO;
@@ -13,9 +12,11 @@ public interface HintService {
 
     List<MerchantVO> getMerchantList();
 
-    HintVO registerHint(HintVO hintVO);
+    void registerHint(HintVO hintVO);
 
-    HintVO updateHint(HintVO hintVO);
+    void updateHint(HintVO hintVO);
 
     List<ThemeVO> getThemeList(String merchantCode);
+
+    int getHintCount(String key);
 }

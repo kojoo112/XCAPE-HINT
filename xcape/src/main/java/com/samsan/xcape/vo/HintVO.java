@@ -6,16 +6,22 @@ import lombok.Data;
 @Data
 public class HintVO {
     private int seq;
-    private String theme;
     private Merchant merchant;
-    private String theme_code;
-    private String theme_name;
-    private String index_of_theme;
+    private String themeCode;
+    private String themeName;
     private String key;
     private String message1;
     private String message2;
     private char use;
     private String create_time;
+
+    public String getMerchantCode(){
+        return merchant.getMerchantCode();
+    }
+
+    public String getMerchantName(){
+        return merchant.getMerchantName();
+    }
 
     public void setMerchant(String merchantCode) {
         this.merchant = Merchant.getMerchantEnum(merchantCode);
