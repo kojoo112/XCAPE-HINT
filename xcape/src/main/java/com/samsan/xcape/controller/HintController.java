@@ -1,8 +1,6 @@
 package com.samsan.xcape.controller;
 
-import com.samsan.xcape.enums.Merchant;
 import com.samsan.xcape.service.HintService;
-import com.samsan.xcape.vo.HintResponseVO;
 import com.samsan.xcape.vo.HintVO;
 import com.samsan.xcape.vo.MerchantVO;
 import com.samsan.xcape.vo.ThemeVO;
@@ -41,12 +39,22 @@ public class HintController {
     }
 
     @PostMapping("/registerHint")
-    public HintVO registerHint(@RequestBody HintVO hintVO){
-        return hintService.registerHint(hintVO);
+    public void registerHint(@RequestBody HintVO hintVO){
+        hintService.registerHint(hintVO);
     }
 
     @PutMapping("/updateHint")
-    public HintVO updateHint(@RequestBody HintVO hintVO){
-        return hintService.updateHint(hintVO);
+    void updateHint(@RequestBody HintVO hintVO){
+        hintService.updateHint(hintVO);
+    }
+
+    @PostMapping("/modifyMessage")
+    void modifyMessage(@RequestBody HintVO hintVO){
+        hintService.modifyMessage(hintVO);
+    }
+
+    @PostMapping("/deleteHint")
+    void deleteHint(@RequestBody int seq){
+        hintService.deleteHint(seq);
     }
 }

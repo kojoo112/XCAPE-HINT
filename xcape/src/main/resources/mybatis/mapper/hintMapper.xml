@@ -8,7 +8,6 @@
                `merchant_code` AS merchant,
                `theme_code` AS themeCode,
                `theme_name` AS themeName,
-               `index_of_theme`,
                `key`,
                `message1`,
                `message2`,
@@ -50,10 +49,19 @@
 
     <insert id="registerHint" parameterType="com.samsan.xcape.vo.HintVO">
         INSERT INTO `hint`(
-            `key`, `message1`, `message2`, `use`, `theme_code`, `merchant`, `index_of_theme`
+            `message1`, `message2`, `theme_code`, `theme_name`, `key`, `merchant_code`, `merchant_name`
             )
             VALUES(
-            #{key}, #{message1}, #{message2}, #{use}, #{theme_code}, #{merchant}, #{index_of_theme}
+            #{message1}, #{message2}, #{themeCode},
+                      (SELECT
+                              DISTINCT theme_name AS themeName
+                      FROM
+                           theme
+                      WHERE
+                            merchant_code = #{merchantCode}
+                            AND
+                            theme_code = #{themeCode}),
+                   #{key}, #{merchantCode}, #{merchantName}
             )
     </insert>
 
@@ -67,10 +75,42 @@
             `use` = #{use},
             `theme` = #{theme},
             `merchant_code` = #{merchantCode},
-            `merchant_name` = #{merchantName},
-            `index_of_theme` = #{index_of_theme}
+            `merchant_name` = #{merchantName}
         WHERE
               (`seq` = #{seq});
     </update>
+
+    <update id="modifyMessage">
+        UPDATE
+            `hint`
+        SET
+            <if test="message1 != null">
+                `message1` = #{message1}
+            </if>
+            <if test="message2 != null">
+                `message2` = #{message2}
+            </if>
+        WHERE
+            `seq` = #{seq};
+    </update>
+
+    <update id="deleteHint">
+        UPDATE
+            `hint`
+        SET
+            `use` = 'N'
+        WHERE
+            `seq` = #{seq};
+    </update>
+    
+    <select id="getHintCount" resultType="int">
+        SELECT
+            count(`key`)
+            AS `count`
+        FROM
+             hint
+        WHERE
+              `key` = #{key};
+    </select>
 
 </mapper>

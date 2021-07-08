@@ -2,6 +2,10 @@ body {
   background: #343a40;
 }
 
+::placeholder{
+  color: white;
+}
+
 .input-group {
   background: white;
   border: 1px solid white;

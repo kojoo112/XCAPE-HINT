@@ -4,15 +4,32 @@ import Article from "./Article";
 
 export default function MainComponent(){
 
-    // const [merchantList, setMerchantList] = useState([])
-
-    let hintListSize = 0;
+    const [hintListSize, setHintListSize] = useState();
 
     const [merchant, setMerchant] = useState('MRC001');
-    const [theme, setTheme] = useState('THM001');
+    const [themeCode, setThemeCode] = useState('THM001');
+    const [message1, setMessage1] = useState();
+    const [message2, setMessage2] = useState();
 
     const [themeList, setThemeList] = useState([]);
     const [hintList, setHintList] = useState([]);
+
+    const registerData = {
+        message1: message1,
+        message2: message2,
+        themeCode: themeCode,
+        merchant: merchant
+    };
+
+    const registerHint = async () => {
+        await fetch('/registerHint', {
+            method: 'POST', // or 'PUT'
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(registerData),
+        })
+    }
 
     const getThemeList = async () => {
         const response = await fetch(`/theme/list?merchantCode=${merchant}`);
@@ -20,30 +37,40 @@ export default function MainComponent(){
         setThemeList(data);
     }
 
-    const handleMerchantState = (merchant) => {
-        setMerchant(merchant);
-        console.log(`TestComponent console : ${merchant}`)
+    const handleMessage1 = (message1) => {
+        setMessage1(message1);
     }
 
-    const handleThemeState = (theme) => {
-        setTheme(theme);
-        console.log(theme);
+    const handleMessage2 = (message2) => {
+        setMessage2(message2);
+    }
+
+    const handleMerchantState = (merchant) => {
+        setMerchant(merchant);
+    }
+
+    const handleThemeCodeState = (themeCode) => {
+        setThemeCode(themeCode);
     }
 
     const getHintList = async () => {
-        const response = await fetch(`/getHint?merchantCode=${merchant}&themeCode=${theme}`);
+        const response = await fetch(`/getHint?merchantCode=${merchant}&themeCode=${themeCode}`);
         const data = await response.json();
         setHintList(data);
+        setHintListSize(data.length+1);
     }
 
     useEffect(() => {
         getThemeList();
         getHintList();
-    },[merchant, theme]);
+    },[merchant, themeCode, hintList]);
 
     return(
       <div>
-          <Header handleMerchantState={handleMerchantState} merchantState={ merchant } themeState={ handleThemeState } themeListState={ themeList }/>
+          <Header handleMerchantState={handleMerchantState} merchantState={ merchant }
+                  themeCodeState={ handleThemeCodeState } themeListState={ themeList }
+                  hintListSize={hintListSize} handleMessage1={handleMessage1}
+                  handleMessage2={handleMessage2} registerHint={registerHint}/>
           <Article hintListSize={hintListSize} hintState={hintList}/>
       </div>
     );

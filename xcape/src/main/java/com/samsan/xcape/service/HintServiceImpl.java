@@ -1,7 +1,7 @@
 package com.samsan.xcape.service;
 
 import com.samsan.xcape.dao.HintDAO;
-import com.samsan.xcape.enums.Merchant;
+import com.samsan.xcape.util.RandomKeyValue;
 import com.samsan.xcape.vo.HintVO;
 import com.samsan.xcape.vo.MerchantVO;
 import com.samsan.xcape.vo.ThemeVO;
@@ -12,7 +12,7 @@ import java.util.List;
 @Service
 public class HintServiceImpl implements HintService{
 
-    private HintDAO hintDAO;
+    private final HintDAO hintDAO;
 
     HintServiceImpl(HintDAO hintDAO){
         this.hintDAO = hintDAO;
@@ -29,17 +29,42 @@ public class HintServiceImpl implements HintService{
     }
 
     @Override
-    public HintVO registerHint(HintVO hintVO) {
-        return hintDAO.registerHint(hintVO);
+    public void registerHint(HintVO hintVO) {
+        String randomKeyValue = RandomKeyValue.randomKey();
+        while(isKeyOverlap(randomKeyValue)){
+            randomKeyValue = RandomKeyValue.randomKey();
+        }
+        hintVO.setKey(randomKeyValue);
+        hintDAO.registerHint(hintVO);
     }
 
     @Override
-    public HintVO updateHint(HintVO hintVO) {
-        return hintDAO.updateHint(hintVO);
+    public void updateHint(HintVO hintVO) {
+        hintDAO.updateHint(hintVO);
     }
 
     @Override
     public List<ThemeVO> getThemeList(String merchantCode) {
         return hintDAO.getThemeList(merchantCode);
+    }
+
+
+    private boolean isKeyOverlap(String key){
+        return hintDAO.getHintCount(key) != 0;
+    }
+
+    @Override
+    public int getHintCount(String key) {
+        return hintDAO.getHintCount(key);
+    }
+
+    @Override
+    public void modifyMessage(HintVO hintVO) {
+        hintDAO.modifyMessage(hintVO);
+    }
+
+    @Override
+    public void deleteHint(int seq) {
+        hintDAO.deleteHint(seq);
     }
 }
