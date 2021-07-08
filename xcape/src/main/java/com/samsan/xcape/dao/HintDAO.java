@@ -23,4 +23,8 @@ public interface HintDAO {
     List<ThemeVO> getThemeList(String merchantCode);
 
     int getHintCount(String key);
+
+    void modifyMessage(HintVO hintVO);
+
+    void deleteHint(int seq);
 }

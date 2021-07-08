@@ -29,13 +29,6 @@ export default function MainComponent(){
             },
             body: JSON.stringify(registerData),
         })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Success:', data);
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
     }
 
     const getThemeList = async () => {
@@ -70,7 +63,7 @@ export default function MainComponent(){
     useEffect(() => {
         getThemeList();
         getHintList();
-    },[merchant, themeCode]);
+    },[merchant, themeCode, hintList]);
 
     return(
       <div>

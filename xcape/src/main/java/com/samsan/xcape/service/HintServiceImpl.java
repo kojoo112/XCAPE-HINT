@@ -57,4 +57,14 @@ public class HintServiceImpl implements HintService{
     public int getHintCount(String key) {
         return hintDAO.getHintCount(key);
     }
+
+    @Override
+    public void modifyMessage(HintVO hintVO) {
+        hintDAO.modifyMessage(hintVO);
+    }
+
+    @Override
+    public void deleteHint(int seq) {
+        hintDAO.deleteHint(seq);
+    }
 }

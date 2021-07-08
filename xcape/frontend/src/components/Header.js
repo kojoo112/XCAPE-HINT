@@ -35,7 +35,6 @@ export default function Header(props){
         getMerchantList();
     }, []);
 
-
     return(
         <Card className="mb-3 bg-dark text-white">
             <Card.Header>XCAPE Hint Setting</Card.Header>
@@ -98,7 +97,7 @@ export default function Header(props){
                         </Row>
                     </Col>
                     <Col>
-                        <Button className="col-md-6 col-sm-12" onClick={props.registerHint} value="저장" />
+                        <Button className="col-md-6 col-sm-12" onClick={props.registerHint}>저장</Button>
                     </Col>
                 </Row>
             </Card.Body>

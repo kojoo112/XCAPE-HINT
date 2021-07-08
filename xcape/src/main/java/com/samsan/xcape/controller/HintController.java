@@ -47,4 +47,14 @@ public class HintController {
     void updateHint(@RequestBody HintVO hintVO){
         hintService.updateHint(hintVO);
     }
+
+    @PostMapping("/modifyMessage")
+    void modifyMessage(@RequestBody HintVO hintVO){
+        hintService.modifyMessage(hintVO);
+    }
+
+    @PostMapping("/deleteHint")
+    void deleteHint(@RequestBody int seq){
+        hintService.deleteHint(seq);
+    }
 }
