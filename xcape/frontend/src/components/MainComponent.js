@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from "react";
 import Header from "./Header";
 import Article from "./Article";
+import {getFetch} from "../util/getFetch";
+import {postFetch} from "../util/postFetch";
 
 export default function MainComponent(){
 
@@ -22,18 +24,11 @@ export default function MainComponent(){
     };
 
     const registerHint = async () => {
-        await fetch('/registerHint', {
-            method: 'POST', // or 'PUT'
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(registerData),
-        })
+        await postFetch('/registerHint', registerData);
     }
 
     const getThemeList = async () => {
-        const response = await fetch(`/theme/list?merchantCode=${merchant}`);
-        const data = await response.json();
+        const data = await getFetch(`/theme/list?merchantCode=${merchant}`);
         setThemeList(data);
     }
 
@@ -54,8 +49,7 @@ export default function MainComponent(){
     }
 
     const getHintList = async () => {
-        const response = await fetch(`/getHint?merchantCode=${merchant}&themeCode=${themeCode}`);
-        const data = await response.json();
+        const data = await getFetch(`/getHint?merchantCode=${merchant}&themeCode=${themeCode}`);
         setHintList(data);
         setHintListSize(data.length+1);
     }

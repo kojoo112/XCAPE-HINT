@@ -30,9 +30,9 @@ public class HintServiceImpl implements HintService{
 
     @Override
     public void registerHint(HintVO hintVO) {
-        String randomKeyValue = RandomKeyValue.randomKey();
+        String randomKeyValue = RandomKeyValue.getRandomKey();
         while(isKeyOverlap(randomKeyValue)){
-            randomKeyValue = RandomKeyValue.randomKey();
+            randomKeyValue = RandomKeyValue.getRandomKey();
         }
         hintVO.setKey(randomKeyValue);
         hintDAO.registerHint(hintVO);

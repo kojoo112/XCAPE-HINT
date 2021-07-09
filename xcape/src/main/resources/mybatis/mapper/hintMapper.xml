@@ -49,19 +49,31 @@
 
     <insert id="registerHint" parameterType="com.samsan.xcape.vo.HintVO">
         INSERT INTO `hint`(
-            `message1`, `message2`, `theme_code`, `theme_name`, `key`, `merchant_code`, `merchant_name`
+            `message1`,
+            `message2`,
+            `theme_code`,
+            `theme_name`,
+            `key`,
+            `merchant_code`,
+            `merchant_name`
             )
             VALUES(
-            #{message1}, #{message2}, #{themeCode},
-                      (SELECT
-                              DISTINCT theme_name AS themeName
-                      FROM
-                           theme
-                      WHERE
-                            merchant_code = #{merchantCode}
-                            AND
-                            theme_code = #{themeCode}),
-                   #{key}, #{merchantCode}, #{merchantName}
+                #{message1},
+                #{message2},
+                #{themeCode},
+                (
+                    SELECT
+                        DISTINCT theme_name AS themeName
+                    FROM
+                        theme
+                    WHERE
+                        merchant_code = #{merchantCode}
+                        AND
+                        theme_code = #{themeCode}
+                ),
+                #{key},
+                #{merchantCode},
+                #{merchantName}
             )
     </insert>
 

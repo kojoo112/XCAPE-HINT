@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import { Card, Table } from 'react-bootstrap'
+import {postFetch} from '../util/postFetch'
 
 export default function Article (props){
 
@@ -11,31 +12,19 @@ export default function Article (props){
 
     const modifyMessagePrompt = async (e, seq) => {
         const message = prompt('바꾸실 힌트를 입력해주세요', e.target.className);
-        let objectMessage1 = {
+        let objectMessage = {
             seq: seq,
             [e.target.id]: message
         }
         if(message != null) {
-            await fetch("/modifyMessage", {
-            method: 'POST', // or 'PUT'
-            headers: {
-                'Content-Type': 'application/json',
-            },
-                body: JSON.stringify(objectMessage1)
-            })
+            await postFetch("/modifyMessage", objectMessage);
         }
     }
 
-    const deleteHint = (e) => {
+    const deleteHint = async (e) => {
         let isDelete = window.confirm('정말 삭제하시겠습니까?');
         if(isDelete){
-            fetch("/deleteHint", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(e.target.id)
-            })
+            await postFetch('/deleteHint', e.target.id);
         }
     }
 
@@ -62,14 +51,14 @@ export default function Article (props){
                             <tr key={index}>
                                 <td>{index+1}</td>
                                 <td id={item.seq}>{item.key}</td>
-                                <td onClick={(e)=> {
-                                    modifyMessagePrompt(e, item.seq);
-                                }} id="message1"
-                                    className={item.message1}>{item.message1}</td>
-                                <td onClick={(e)=> {
-                                    modifyMessagePrompt(e, item.seq);
-                                }} id="message2"
-                                    className={item.message2}>{item.message2}</td>
+                                <td onClick={(e)=> {modifyMessagePrompt(e, item.seq);}}
+                                    id="message1" className={item.message1}>
+                                    {item.message1}
+                                </td>
+                                <td onClick={(e)=> {modifyMessagePrompt(e, item.seq);}}
+                                    id="message2" className={item.message2}>
+                                    {item.message2}
+                                </td>
                                 <td><button onClick={deleteHint} id={item.seq}>X</button></td>
                             </tr>
                         ))}

@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import { Card, Row, Col, Button, InputGroup, FormControl } from 'react-bootstrap'
 import '../Header.css'
+import { getFetch } from '../util/getFetch';
 
 export default function Header(props){
 
@@ -10,8 +11,7 @@ export default function Header(props){
     const [merchantList, setMerchantList] = useState([]);
 
     const getMerchantList = async () => {
-        const response = await fetch('/merchant/list');
-        const data = await response.json();
+        const data = await getFetch('/merchant/list');
         setMerchantList(data);
     }
 
@@ -42,7 +42,7 @@ export default function Header(props){
                 <Row>
                     <Col className="col-md-10 col-sm-12">
                         <Row>
-                            <Col className="col-md-4 col-sm-12">
+                            <Col className="col-md-5 col-sm-12">
                                 <InputGroup className="mb-3">
                                     <InputGroup.Text>가맹점</InputGroup.Text>
                                     <FormControl as="select" onChange={handleMerchant}>
@@ -54,7 +54,7 @@ export default function Header(props){
                                     </FormControl>
                                 </InputGroup>
                             </Col>
-                            <Col className="col-md-4 col-sm-12">
+                            <Col className="col-md-5 col-sm-12">
                                 <InputGroup className="mb-3">
                                     <InputGroup.Text>테마</InputGroup.Text>
                                     <FormControl as="select" onChange={handleThemeCode}>
@@ -71,26 +71,19 @@ export default function Header(props){
                                     </FormControl>
                                 </InputGroup>
                             </Col>
-                            <Col className="col-md-2 col-sm-12">
-                                <InputGroup className="mb-3">
-                                    <InputGroup.Text>키</InputGroup.Text>
-                                    <FormControl as="input" type="text" disabled>
-                                    </FormControl>
-                                </InputGroup>
-                            </Col>
                         </Row>
                         <Row className="row-cols-2">
                             <Col>
                                 <InputGroup className="mb-3">
                                     <InputGroup.Text>힌트 1</InputGroup.Text>
-                                    <FormControl as="input" type="text" onChange={handleMessage1}>
+                                    <FormControl as="input" type="text" id="message1" onChange={handleMessage1}>
                                     </FormControl>
                                 </InputGroup>
                             </Col>
                             <Col>
                                 <InputGroup className="mb-3">
                                     <InputGroup.Text>힌트 2</InputGroup.Text>
-                                    <FormControl as="input" type="text" onChange={handleMessage2}>
+                                    <FormControl as="input" type="text" id="message2" onChange={handleMessage2}>
                                     </FormControl>
                                 </InputGroup>
                             </Col>
