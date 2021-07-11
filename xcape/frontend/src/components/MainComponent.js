@@ -1,71 +1,95 @@
 import React, {useEffect, useState} from "react";
 import Header from "./Header";
 import Article from "./Article";
-import {getFetch} from "../util/getFetch";
-import {postFetch} from "../util/postFetch";
+import axios from "axios";
 
-export default function MainComponent(){
+export default function MainComponent() {
 
     const [hintListSize, setHintListSize] = useState();
 
-    const [merchant, setMerchant] = useState('MRC001');
+    const [merchantCode, setMerchantCode] = useState('MRC001');
     const [themeCode, setThemeCode] = useState('THM001');
     const [message1, setMessage1] = useState();
     const [message2, setMessage2] = useState();
 
+    const [merchantList, setMerchantList] = useState([]);
     const [themeList, setThemeList] = useState([]);
     const [hintList, setHintList] = useState([]);
 
-    const registerData = {
-        message1: message1,
-        message2: message2,
-        themeCode: themeCode,
-        merchant: merchant
-    };
+    // post 메소드 실행시 힌트리스트 갱신용
+    const [isModified, setIsModified] = useState(true);
 
-    const registerHint = async () => {
-        await postFetch('/registerHint', registerData);
+    const handleMerchantCode = (e) => {
+        setMerchantCode(e.target.value);
     }
 
-    const getThemeList = async () => {
-        const data = await getFetch(`/theme/list?merchantCode=${merchant}`);
-        setThemeList(data);
+    const handleThemeCode = (e) => {
+        setThemeCode(e.target.value);
     }
 
-    const handleMessage1 = (message1) => {
-        setMessage1(message1);
+    const handleMessage1 = (e) => {
+        setMessage1(e.target.value);
     }
 
-    const handleMessage2 = (message2) => {
-        setMessage2(message2);
+    const handleMessage2 = (e) => {
+        setMessage2(e.target.value);
     }
 
-    const handleMerchantState = (merchant) => {
-        setMerchant(merchant);
+    const deleteHint = (e) => {
+        let isDelete = window.confirm('정말 삭제하시겠습니까?');
+        let object = {
+            seq: e.target.id
+        }
+        if(isDelete){
+            axios.post('/deleteHint', object)
+                .then(() => setIsModified(!isModified))
+                .catch(console.log);
+        }
     }
 
-    const handleThemeCodeState = (themeCode) => {
-        setThemeCode(themeCode);
-    }
-
-    const getHintList = async () => {
-        const data = await getFetch(`/getHint?merchantCode=${merchant}&themeCode=${themeCode}`);
-        setHintList(data);
-        setHintListSize(data.length+1);
+    const registerHint = () => {
+        const registerData = {
+            message1: message1,
+            message2: message2,
+            themeCode: themeCode,
+            merchant: merchantCode
+        };
+        axios.post(`/registerHint`, registerData)
+            .then(() => setIsModified(!isModified))
+            .catch(console.log);
     }
 
     useEffect(() => {
-        getThemeList();
-        getHintList();
-    },[merchant, themeCode, hintList]);
+        axios.get(`/merchant/list`)
+            .then(res => setMerchantList(res.data))
+            .catch(console.log);
 
-    return(
-      <div>
-          <Header handleMerchantState={handleMerchantState} merchantState={ merchant }
-                  themeCodeState={ handleThemeCodeState } themeListState={ themeList }
-                  hintListSize={hintListSize} handleMessage1={handleMessage1}
-                  handleMessage2={handleMessage2} registerHint={registerHint}/>
-          <Article hintListSize={hintListSize} hintState={hintList}/>
-      </div>
+    }, []);
+
+    useEffect(() => {
+        axios.get(`/theme/list?merchantCode=${merchantCode}`)
+            .then(res => setThemeList(res.data))
+            .catch(console.log);
+
+    }, [merchantCode]);
+
+    useEffect(() => {
+        axios.get(`/getHint?merchantCode=${merchantCode}&themeCode=${themeCode}`)
+            .then(res => {
+                setHintList(res.data);
+                setHintListSize(res.data.length + 1);
+            })
+            .catch(console.log);
+
+    }, [merchantCode, themeCode, isModified])
+
+    return (
+        <div>
+            <Header merchantList={merchantList} handleMerchantCode={handleMerchantCode}
+                    themeList={themeList} handleThemeCode={handleThemeCode} hintListSize={hintListSize}
+                    handleMessage1={handleMessage1} handleMessage2={handleMessage2} registerHint={registerHint}
+                    />
+            <Article hintList={hintList} deleteHint={deleteHint}/>
+        </div>
     );
 }

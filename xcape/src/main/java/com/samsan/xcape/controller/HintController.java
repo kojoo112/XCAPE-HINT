@@ -4,10 +4,12 @@ import com.samsan.xcape.service.HintService;
 import com.samsan.xcape.vo.HintVO;
 import com.samsan.xcape.vo.MerchantVO;
 import com.samsan.xcape.vo.ThemeVO;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Log4j2
 @RestController
 public class HintController {
 
@@ -44,17 +46,18 @@ public class HintController {
     }
 
     @PutMapping("/updateHint")
-    void updateHint(@RequestBody HintVO hintVO){
+    public void updateHint(@RequestBody HintVO hintVO){
         hintService.updateHint(hintVO);
     }
 
     @PostMapping("/modifyMessage")
-    void modifyMessage(@RequestBody HintVO hintVO){
+    public void modifyMessage(@RequestBody HintVO hintVO){
         hintService.modifyMessage(hintVO);
     }
 
     @PostMapping("/deleteHint")
-    void deleteHint(@RequestBody int seq){
-        hintService.deleteHint(seq);
+    public void deleteHint(@RequestBody HintVO hintVO){
+        hintService.deleteHint(hintVO);
     }
+
 }

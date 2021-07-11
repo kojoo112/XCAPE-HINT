@@ -26,5 +26,5 @@ public interface HintDAO {
 
     void modifyMessage(HintVO hintVO);
 
-    void deleteHint(int seq);
+    void deleteHint(HintVO hintVO);
 }

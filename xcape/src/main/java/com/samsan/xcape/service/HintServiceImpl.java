@@ -64,7 +64,7 @@ public class HintServiceImpl implements HintService{
     }
 
     @Override
-    public void deleteHint(int seq) {
-        hintDAO.deleteHint(seq);
+    public void deleteHint(HintVO hintVO) {
+        hintDAO.deleteHint(hintVO);
     }
 }

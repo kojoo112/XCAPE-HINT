@@ -44,7 +44,9 @@
             `reg_date` AS `regDate`,
             `mod_date` AS `modDate`
         FROM
-            `merchant`;
+            `merchant`
+        ORDER BY
+            `merchant_code`;
     </select>
 
     <insert id="registerHint" parameterType="com.samsan.xcape.vo.HintVO">
