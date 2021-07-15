@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import { BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.css';
@@ -6,15 +6,26 @@ import MainComponent from "./components/MainComponent";
 import Login from "./components/Login";
 
 function App() {
+
+    const handleUser = (res) => {
+        const userObject = {
+            email: res.email,
+            name: res.name,
+            picture: res.picture,
+            identificationNumber: res.identificationNumber
+        }
+        console.log(userObject);
+    }
+
   return (
     <div className="App">
-        {/*<Router>*/}
-        {/*    <Switch>*/}
-        {/*        <Route exact path="/" component={Login} />*/}
-        {/*        <Route path="/main" component={MainComponent} />*/}
-        {/*    </Switch>*/}
-        {/*</Router>*/}
-        <MainComponent />
+        <Router>
+            <Switch>
+                <Route exact path="/"
+                       render={() => <Login handleUser={handleUser} />}/>
+                <Route path="/main" component={MainComponent} />
+            </Switch>
+        </Router>
     </div>
   );
 }

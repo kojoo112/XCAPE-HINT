@@ -1,34 +1,45 @@
-import React from "react";
+import React, {useState} from "react";
 import {Card, Col, FormControl, InputGroup, Row, Button} from "react-bootstrap";
 import '../Login.css';
+import {GoogleLogin, GoogleLogout} from "react-google-login";
+import axios from "axios";
 
-export default function Login(){
+export default function Login(props){
+
+    const clientId = "164344653512-o9cmcj2g320u721tg6qktj66fq6om77e.apps.googleusercontent.com"
+
+    const onSuccess = async(response) => {
+        const id_token = response.getAuthResponse().id_token;
+        const params = new URLSearchParams();
+        params.append('idtoken', id_token);
+        axios.post(`/googleLogin`, params, {
+            headers: {
+                'Content-type': 'application/x-www-form-urlencoded'
+            }
+        })
+            .then(res => props.handleUser(res.data))
+            .catch(console.log)
+    }
+
+    const onFailure = (error) => {
+        console.log(error);
+    }
+
+    const onLogoutSuccess = async(response) => {
+        console.log(response);
+    }
+
     return(
         <div>
-            <Card className="text-white bg-dark col-md-10">
-                <Card.Header>Login</Card.Header>
-                <Card.Body>
-                    <Row>
-                        <Col>
-                            <Row>
-                                <InputGroup className="mb-3" style={{padding: "0px"}}>
-                                    <InputGroup.Text>ID</InputGroup.Text>
-                                    <FormControl type="text" placeholder="ID"/>
-                                </InputGroup>
-                            </Row>
-                            <Row>
-                                <InputGroup className="mb-3" style={{padding: "0px"}}>
-                                    <InputGroup.Text>Password</InputGroup.Text>
-                                    <FormControl type="Password" placeholder="Password"/>
-                                </InputGroup>
-                            </Row>
-                        </Col>
-                        <Col>
-                            <Button>로그인</Button>
-                        </Col>
-                    </Row>
-                </Card.Body>
-            </Card>
+            <GoogleLogin clientId={clientId}
+                         onSuccess={onSuccess}
+                         onFailure={onFailure}
+                         cookiePolicy="single_host_origin"
+                         buttonText="로그인"/>
+            <GoogleLogout clientId={clientId}
+                          onLogoutSuccess={onLogoutSuccess}
+                          onFailure={onFailure}
+                          buttonText="로그아웃" />
         </div>
     );
 }
