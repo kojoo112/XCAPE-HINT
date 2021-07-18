@@ -1,8 +1,8 @@
-import React, {useState} from "react";
-import {Card, Col, FormControl, InputGroup, Row, Button} from "react-bootstrap";
+import React from "react";
 import '../Login.css';
 import {GoogleLogin, GoogleLogout} from "react-google-login";
 import axios from "axios";
+import KakaoLogin from "react-kakao-login";
 
 export default function Login(props){
 
@@ -18,7 +18,7 @@ export default function Login(props){
             }
         })
             .then(res => props.handleUser(res.data))
-            .catch(console.log)
+            .catch(console.log);
     }
 
     const onFailure = (error) => {
@@ -26,7 +26,21 @@ export default function Login(props){
     }
 
     const onLogoutSuccess = async(response) => {
-        console.log(response);
+        axios.get(`/logout`)
+            .then(console.log);
+    }
+
+    const kakaoLogout = () => {
+        // let data = {
+        //     id: 'IdzJCrcpOJCV8FT9MVoIcDQ8YWhr7dykvK8LngopyNgAAAF6sCUcrg'
+        // }
+        // axios.post(`/v1/user/logout`, data, {
+        //     headers: {
+        //         'Autorization' : `Bearer${}`//
+        //     }
+        // })
+        //     .then(console.log)
+        //     .catch(console.log);
     }
 
     return(
@@ -35,11 +49,18 @@ export default function Login(props){
                          onSuccess={onSuccess}
                          onFailure={onFailure}
                          cookiePolicy="single_host_origin"
-                         buttonText="로그인"/>
+                         buttonText="로그인" />
             <GoogleLogout clientId={clientId}
                           onLogoutSuccess={onLogoutSuccess}
                           onFailure={onFailure}
                           buttonText="로그아웃" />
+            <br />
+            {/*<KakaoLogin token='bdbe33bf90efc9adc9f7ecce5dd724d5'*/}
+            {/*            onSuccess={console.log}*/}
+            {/*            onFail={console.log}*/}
+            {/*            onLogout={kakaoLogout} />*/}
+            {/*<button onClick={kakaoLogout} >logout</button>*/}
+
         </div>
     );
 }

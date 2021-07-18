@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import { BrowserRouter as Router, Route, Switch} from "react-router-dom";
+import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.css';
 import MainComponent from "./components/MainComponent";
@@ -12,22 +12,27 @@ function App() {
             email: res.email,
             name: res.name,
             picture: res.picture,
-            identificationNumber: res.identificationNumber
+            identificationNumber: res.identificationNumber,
+            auth: false
         }
-        console.log(userObject);
+        if(userObject != undefined){
+            userObject.auth = true
+            console.log(userObject);
+            // window.location = '/main'
+        }
     }
 
-  return (
-    <div className="App">
-        <Router>
-            <Switch>
-                <Route exact path="/"
-                       render={() => <Login handleUser={handleUser} />}/>
-                <Route path="/main" component={MainComponent} />
-            </Switch>
-        </Router>
-    </div>
-  );
+    return (
+        <div className="App">
+            <Router>
+                <Switch>
+                    <Route path="/main" component={MainComponent}/>
+                    <Route exact path="/"
+                           render={() => <Login handleUser={handleUser}/>}/>
+                </Switch>
+            </Router>
+        </div>
+    );
 }
 
 export default App;

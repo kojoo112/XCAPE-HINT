@@ -11,6 +11,9 @@ import com.samsan.xcape.vo.UserVO;
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.Collections;
@@ -37,7 +40,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public String googleLogin(String idtoken) throws GeneralSecurityException, IOException {
+    public String googleLogin(String idtoken, HttpServletRequest request, HttpServletResponse response) throws GeneralSecurityException, IOException {
         HttpTransport transport = Utils.getDefaultTransport();
         JsonFactory jsonFactory = Utils.getDefaultJsonFactory();
 
@@ -57,12 +60,17 @@ public class UserServiceImpl implements UserService{
                 userVO.setPicture((String) payload.get("picture"));
                 userVO.setName((String) payload.get("name"));
 
+                HttpSession session = request.getSession();
+                session.setAttribute("user", userVO);
                 signUp(userVO);
                 String result = mapper.writeValueAsString(userVO);
                 return result;
             }
             UserVO userVO = findUserByEmail(payload.getEmail());
+            HttpSession session = request.getSession();
+            session.setAttribute("user", userVO);
             String result = mapper.writeValueAsString(userVO);
+
             return result;
         } else {
             return "fail";
